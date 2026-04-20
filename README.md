@@ -1,16 +1,16 @@
-# kasperdb
+# kasdb
 
-`kasperdb` is a simple and easy-to-use database library for Node.js.
+`kasdb` is a simple and easy-to-use database library for Node.js.
 
 ## Installation
 
 ```bash
-npm install kasperdb
+npm install @kasperenok/kasdb
 ```
 ## Usage
 
 ```javascript
-const { DB } = require("kasperdb");
+const { DB } = require("@kasperenok/kasdb");
 const db = new DB({ filename: "database/example", extension: ".db" });
 ```
 ## Functions
@@ -54,6 +54,43 @@ Attributes in `eventData` for event `saveData`:
 - key
 - value
 - filename
+
+---
+
+## AsyncDB
+
+`AsyncDB` has the same API as `DB`, but all methods are `async`.
+
+```javascript
+const { AsyncDB } = require("kasperdb");
+const db = new AsyncDB({ filename: "database/example", extension: ".db" });
+```
+
+### Save Data
+```javascript
+await db.saveData("money", { username: "example", count: 0 });
+```
+
+### Get Full Data
+```javascript
+const data = await db.getData();
+console.log(data.money.count);
+```
+
+### Get Data by Key
+```javascript
+const data = await db.getData("money");
+console.log(data.count);
+```
+
+### Event Handling
+Works the same as `DB`:
+```javascript
+db.on("getData", (e) => console.log(`Got key ${e.key} from ${e.filename}`));
+db.on("saveData", (e) => console.log(`Saved key ${e.key} to ${e.filename}`));
+```
+
+---
 
 ## Dependencies
 - [fs](https://nodejs.org/api/fs.html): File system module.
